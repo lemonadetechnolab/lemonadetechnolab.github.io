@@ -8,13 +8,13 @@
   <script type="text/javascript">
     window.onload = function() {
       var dataPoints = [];
-      var data_turb = "http://localhost:8000/datalog_turb.csv"
-      var data_s1 = "http://localhost:8000/datalog_s1.csv"
-      var data_s2 = "http://localhost:8000/datalog_s2.csv"
-      var data_s3 = "http://localhost:8000/datalog_s3.csv"
-      var data_l = "http://localhost:8000/datalog_l.csv"
-      var data_w = "http://localhost:8000/datalog_w.csv"
-      var data_a = "http://localhost:8000/datalog_a.csv"
+      var data_turb = "datalog_turb.csv"
+      var data_s1 = "datalog_s1.csv"
+      var data_s2 = "datalog_s2.csv"
+      var data_s3 = "datalog_s3.csv"
+      var data_l = "datalog_l.csv"
+      var data_w = "datalog_w.csv"
+      var data_a = "datalog_a.csv"
 
       function getDataPointsFromCSV(csv) { // Organize the csv file for the appropriate format of canvasjs
         var dataPoints = csvLines = points = [];
