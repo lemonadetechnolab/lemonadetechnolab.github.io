@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lemonade Machine Sensor History</title>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      var dataPoints = [];
+      var data_turb = "http://localhost:8000/datalog_turb.csv"
+      var data_s1 = "http://localhost:8000/datalog_s1.csv"
+      var data_s2 = "http://localhost:8000/datalog_s2.csv"
+      var data_s3 = "http://localhost:8000/datalog_s3.csv"
+      var data_l = "http://localhost:8000/datalog_l.csv"
+      var data_w = "http://localhost:8000/datalog_w.csv"
+      var data_a = "http://localhost:8000/datalog_a.csv"
+
+      function getDataPointsFromCSV(csv) { // Organize the csv file for the appropriate format of canvasjs
+        var dataPoints = csvLines = points = [];
+        csvLines = csv.split(/[\r?\n|\r|\n]+/);
+        for (var i = 0; i < csvLines.length; i++)
+          if (csvLines[i].length > 0) {
+            points = csvLines[i].split(",");
+            dataPoints.push({
+              x: parseFloat(points[0]),
+              y: parseFloat(points[1])
+            });
+          }
+        return dataPoints;
+      }
+
+      $.get(data_turb, function(data) { // Render the temperature chart with parsed data
+        var turb_points = getDataPointsFromCSV(data)
+        var chart_turb = new CanvasJS.Chart("chartContainer_turb", {
+          title: {
+            text: "Turbidity",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Turbidity, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: turb_points
+          }]
+        });
+        
+        chart_turb.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_turb, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          turb_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (temp_points.length > 10) {
+            temp_points.shift();
+          }*/
+          chart_turb.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+
+      $.get(data_s1, function(data) { // Render the s1erature chart with parsed data
+        var s1_points = getDataPointsFromCSV(data)
+        var chart_s1 = new CanvasJS.Chart("chartContainer_s1", {
+          title: {
+            text: "Syrup 1 Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: s1_points
+          }]
+        });
+        
+        chart_s1.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_s1, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          s1_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (s1_points.length > 10) {
+            s1_points.shift();
+          }*/
+          chart_s1.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+
+      $.get(data_s2, function(data) { // Render the s2erature chart with parsed data
+        var s2_points = getDataPointsFromCSV(data)
+        var chart_s2 = new CanvasJS.Chart("chartContainer_s2", {
+          title: {
+            text: "Syrup 2 Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: s2_points
+          }]
+        });
+        
+        chart_s2.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_s2, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          s2_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (s2_points.length > 10) {
+            s2_points.shift();
+          }*/
+          chart_s2.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+
+      $.get(data_s3, function(data) { // Render the s3erature chart with parsed data
+        var s3_points = getDataPointsFromCSV(data)
+        var chart_s3 = new CanvasJS.Chart("chartContainer_s3", {
+          title: {
+            text: "Syrup 3 Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: s3_points
+          }]
+        });
+        
+        chart_s3.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_s3, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          s3_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (s3_points.length > 10) {
+            s3_points.shift();
+          }*/
+          chart_s3.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+
+      $.get(data_l, function(data) { // Render the lerature chart with parsed data
+        var l_points = getDataPointsFromCSV(data)
+        var chart_l = new CanvasJS.Chart("chartContainer_l", {
+          title: {
+            text: "Mixing Container Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: l_points
+          }]
+        });
+        
+        chart_l.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_l, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          l_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (l_points.length > 10) {
+            l_points.shift();
+          }*/
+          chart_l.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+      $.get(data_w, function(data) { // Render the werature chart with parsed data
+        var w_points = getDataPointsFromCSV(data)
+        var chart_w = new CanvasJS.Chart("chartContainer_w", {
+          title: {
+            text: "Water Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: w_points
+          }]
+        });
+        
+        chart_w.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_w, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          w_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (w_points.length > 10) {
+            w_points.shift();
+          }*/
+          chart_w.render();
+        });
+        };
+
+      $.get(data_a, function(data) { // Render the aerature chart with parsed data
+        var a_points = getDataPointsFromCSV(data)
+        var chart_a = new CanvasJS.Chart("chartContainer_a", {
+          title: {
+            text: "Waste Container Level",
+          },
+          axisX: {            
+            title: "Time, min"
+          },
+          axisY: {            
+            title: "Level, %"
+          },
+          data: [{
+            type: "line",
+            dataPoints: a_points
+          }]
+        });
+        
+        chart_a.render();
+
+          var updateInterval = 1000;
+          var updateChart = function() {
+            var new_points = 0
+          $.get(data_a, function(data) {
+              new_points = getDataPointsFromCSV(data)
+          var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+          var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+          a_points.push({
+            x: xVal,
+            y: yVal
+          });
+          
+          /*if (a_points.length > 10) {
+            a_points.shift();
+          }*/
+          chart_a.render();
+        });
+        };
+        
+        // Update chart after specified time. 
+        setInterval(function() {
+          updateChart()
+        }, updateInterval);
+
+      }); 
+
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="chartContainer_turb" style="width:100%; height:300px;"></div>
+  <div id="chartContainer_s1" style="width:100%; height:300px;"></div>
+  <div id="chartContainer_s2" style="width:100%; height:300px;"></div>
+  <div id="chartContainer_s3" style="width:100%; height:300px;"></div>
+  <div id="chartContainer_w" style="width:100%; height:300px;"></div>
+  <div id="chartContainer_a" style="width:100%; height:300px;"></div>
+</body>
+
+</html>
