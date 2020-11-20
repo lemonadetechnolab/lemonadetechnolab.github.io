@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+ <html>
+
+ <head>
+   <title>Lemonade Machine Sensor History</title>
+   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+   <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+   <script type="text/javascript" src="reloader.js"></script>
+   <script type="text/javascript">
+     window.onload = function() {
+       var dataPoints = [];
+       var data_turb = "arduino.local/datalog_turb.csv"
+
+       function getDataPointsFromCSV(csv) { // Organize the csv file for the appropriate format of canvasjs
+         var dataPoints = csvLines = points = [];
+         csvLines = csv.split(/[\r?\n|\r|\n]+/);
+         for (var i = 0; i < csvLines.length; i++)
+           if (csvLines[i].length > 0) {
+             points = csvLines[i].split(",");
+             dataPoints.push({
+               x: parseFloat(points[0]),
+               y: parseFloat(points[1])
+             });
+           }
+         return dataPoints;
+       }
+
+       $.get(data_turb, function(data) { // Render the temperature chart with parsed data
+         var turb_points = getDataPointsFromCSV(data)
+         var chart_turb = new CanvasJS.Chart("chartContainer_turb", {
+           title: {
+             text: "Turbidity",
+           },
+           axisX: {            
+             title: "Time, min"
+           },
+           axisY: {            
+             title: "Turbidity, %"
+           },
+           data: [{
+             type: "line",
+             dataPoints: turb_points
+           }]
+         });
+
+         chart_turb.render();
+
+           var updateInterval = 1000;
+           var updateChart = function() {
+             var new_points = 0
+           $.get(data_turb, function(data) {
+               new_points = getDataPointsFromCSV(data)
+           var xVal = Object.values(Object.values(new_points[new_points.length - 1]))[0];
+           var yVal = Object.values(Object.values(new_points[new_points.length - 1]))[1];
+           turb_points.push({
+             x: xVal,
+             y: yVal
+           });
+
+           if (turb_points.length > 100) {
+             turb_points.shift();
+           }
+           chart_turb.render();
+         });
+         };
+
+         // Update chart after specified time. 
+         setInterval(function() {
+           updateChart()
+         }, updateInterval);
+
+       });
+       } 
+   </script>
+   <style>
+      body {
+        font-family: monospace;
+      }
+      .status {
+        width: 100%;
+        text-align: left;
+      }
+      .orders {
+        font-size: 23px;
+      }
+      h1 {
+        font-size: 30px;
+      }
+      p {
+        font-size: 23px;
+      }
+   </style>
+ </head>
+
+ <body>
+   <div id="chartContainer_turb" style="width:100%; height:300px;"></div>
+    <div id="liveData">
+    </div>  
+ </body>
+
+ </html> 
