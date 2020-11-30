@@ -5,6 +5,7 @@ For the full functionality to be available, the following applications are requi
 *Python 3.0
 *Jupyter Notebooks
 *Arduino (in order to check what the address is of the Arduino Serial Port)
+*GitHub/GitBash
 
 Prior to the start of the demonstration, the following things have to be executed:
 
